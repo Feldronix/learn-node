@@ -1,1 +1,13 @@
 - In eventloop/timer.js, what will be the order of execution? Briefly explain the order of execution w.r.t the event loop phases.
+ 
+Whenever "foo" is called it executes the the first log statement, adds the "bar" function to the timers (which immediately moves to pending callbacks), and then 
+executes the "baz" function. Since "foo" was called twice, the immediate logs ("foo" and "baz") are called twice while the setTimeout adds the "bar" function to the pending 
+callbacks twice. Once the main thread executes, the pending callbacks are called (in the same order they were called by "foo") by the event loop since there are 
+no I/O events. The final output is as follows:
+
+foo
+baz
+foo
+baz
+2 : bar
+1 : bar

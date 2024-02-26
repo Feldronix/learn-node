@@ -1,2 +1,9 @@
 - Explain the order of execution in terms of the event loop for eventloop/immediate.js.
 - Will the order of execution change if timeout is changed to 0? Why or why not?
+
+The I/O operation (readFile) is executed first in the poll phase with the callback added/executed in the pending callbacks. As the callback is executed, the setTimeout and 
+setImmediate operations are added to the timers and check queues respectively. The check phase then executes the setImmediate operation since it has the 
+next-highest priority. Finally, the setTimeout operation executes once it has moved to pending callbacks.
+
+Even if setTimeout's delay is set to 0, the callback is immediately sent to pending callbacks but the order does not change since the check phase 
+always executes its operations before pending callbacks.

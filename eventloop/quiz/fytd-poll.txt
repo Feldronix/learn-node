@@ -1,1 +1,8 @@
 - In eventloop/poll.js, what will be the order of execution? Briefly explain the order of execution w.r.t the event loop phases.
+
+The main thread always executes to completion before the event loop starts. Since callbacks are executed by the event loop, the two immediate logs are output and then
+the AsyncOperation is executed in the pending callbacks phase (after being added by poll phase). The final output is as follows:
+
+foo
+done
+Read Error
